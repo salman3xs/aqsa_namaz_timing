@@ -1,0 +1,17 @@
+{
+  "permissionRequired":"Permission required",
+  "onIOS13":"On iOS 13+, you need to grant access to the gyroscope. A permission will be requested to proceed.",
+  "cancel":"Cancel",
+  "ok":"OK",
+  "pleaseSelectCountry":"Please Select Country",
+  "select":"Select",
+  "jalgaonNamazTiming":"Jalgaon Namaz Timing",
+  "start":"Start",
+  "namaz":"Namaz",
+  "end":"End",
+  "noCitySelected":"No city Selected",
+  "retry":"Retry",
+  "setting":"Settings",
+  "changeCity":"Change City",
+  "about":"About"
+}
