@@ -7,5 +7,6 @@ class Images {
 class PrefKeys {
   PrefKeys._();
   static const city = 'city';
+  static const language = 'language';
 }
 

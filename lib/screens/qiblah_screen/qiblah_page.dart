@@ -22,7 +22,7 @@ class QiblahPage extends StatelessWidget {
         }
 
         if (snapshot.data!) {
-          return QiblahCompass();
+          return const QiblahCompass();
         } else {
           return Container();
         }

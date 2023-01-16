@@ -57,32 +57,31 @@ class HomeProvider extends ChangeNotifier {
 
   void addTimings(DailyTimeModel dailyTimeModel) {
     startTime.clear();
-    startTime.add(dailyTimeModel.fajr);
-    startTime.add(dailyTimeModel.dhuhr);
-    startTime.add(dailyTimeModel.asr);
-    startTime.add(dailyTimeModel.magrib);
-    startTime.add(dailyTimeModel.isha);
-    startTime.add(dailyTimeModel.fajr);
-    startTime.add(dailyTimeModel.magrib);
-    startTime.add(dailyTimeModel.sunRise);
-    startTime.add(dailyTimeModel.dhuhr);
-    startTime.add(dailyTimeModel.magrib);
-    startTime.add(dailyTimeModel.sunRise);
-    startTime.add(dailyTimeModel.sunRise);
-    startTime.add(dailyTimeModel.sunRise);
+    startTime.add(dailyTimeModel.fajr);//fajr
+    startTime.add(dailyTimeModel.dhuhr);//dhuhr
+    startTime.add(dailyTimeModel.asr);//asr
+    startTime.add(dailyTimeModel.magrib);//magrib
+    startTime.add(dailyTimeModel.isha);//isha
+    startTime.add(dailyTimeModel.fajr);//sahri
+    startTime.add(dailyTimeModel.magrib);//iftar
+    startTime.add(dailyTimeModel.sunRise);//tulu
+    startTime.add(dailyTimeModel.dhuhr.subTime(10));//zawal
+    startTime.add(dailyTimeModel.magrib.subTime(3));//gurub
+    startTime.add(dailyTimeModel.sunRise);//ishrq
+    startTime.add(dailyTimeModel.sunRise);//chast
     endTime.clear();
-    endTime.add(dailyTimeModel.sunRise);
-    endTime.add(dailyTimeModel.asr);
-    endTime.add(dailyTimeModel.magrib.subTime(3));
-    endTime.add(dailyTimeModel.isha);
-    endTime.add(dailyTimeModel.fajr);
-    endTime.add(dailyTimeModel.magrib);
-    endTime.add(dailyTimeModel.sunRise);
-    endTime.add(dailyTimeModel.dhuhr);
-    endTime.add(dailyTimeModel.magrib);
-    endTime.add(dailyTimeModel.sunRise);
-    endTime.add(dailyTimeModel.sunRise);
-    endTime.add(dailyTimeModel.sunRise);
+    endTime.add(dailyTimeModel.sunRise);//fajr
+    endTime.add(dailyTimeModel.asr);//dhuhr
+    endTime.add(dailyTimeModel.magrib.subTime(3));//asr
+    endTime.add(dailyTimeModel.isha);//magrib
+    endTime.add(dailyTimeModel.fajr);//isha
+    endTime.add(dailyTimeModel.fajr);//sahri
+    endTime.add(dailyTimeModel.magrib);//iftar
+    endTime.add(dailyTimeModel.sunRise.addTime(20));//tulu
+    endTime.add(dailyTimeModel.dhuhr);//zawal
+    endTime.add(dailyTimeModel.magrib);//gurub
+    endTime.add(dailyTimeModel.sunRise);//ishrq
+    endTime.add(dailyTimeModel.sunRise);//chast
   }
 
   void getCity() async {

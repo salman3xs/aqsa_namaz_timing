@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jalgaon_namaz_timing/constants/constants.dart';
 import 'package:jalgaon_namaz_timing/root.dart';
 import 'package:motion/motion.dart';
+
+import 'repository/local/shared_preference_repo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,54 +14,51 @@ void main() async {
   runApp(const ProviderScope(child: Home()));
 }
 
-class Home extends StatelessWidget {
+class Home extends ConsumerWidget {
   const Home({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(sharedPreference);
     if (Motion.instance.requiresPermission &&
         !Motion.instance.isPermissionGranted) {
       showPermissionRequestDialog(context);
     }
-    return MaterialApp(
-      // localizationsDelegates: const [
-      //   AppLocalizations.delegate,
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
-      // supportedLocales: const [
-      //   Locale('en', ''),
-      //   Locale('ur', ''),
-      //   Locale('hi', ''),
-      // ],
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      title: "Jalgaon Namaz Timing",
-      theme: ThemeData(
-        // textTheme: TextTheme(
-        //   headline1: TextStyle(color: )
-        // ),
-        primaryColor: getColor(),
-        scaffoldBackgroundColor: getColor(),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(8),
-            primary: getColor(),
-            minimumSize: const Size.fromHeight(40),
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(8),
-            primary: Colors.white,
-            minimumSize: const Size.fromHeight(40),
-          ),
-        ),
-      ),
-      home: const Root(),
-    );
+    return prefs.when(
+        data: (data) {
+          return MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            debugShowCheckedModeBanner: false,
+            locale: Locale(data == null
+                ? 'en'
+                : data.getString(PrefKeys.language) ?? 'en'),
+            title: "Jalgaon Namaz Timing",
+            theme: ThemeData(
+              primaryColor: getColor(),
+              scaffoldBackgroundColor: getColor(),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(8),
+                  primary: getColor(),
+                  minimumSize: const Size.fromHeight(40),
+                ),
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(8),
+                  primary: Colors.white,
+                  minimumSize: const Size.fromHeight(40),
+                ),
+              ),
+            ),
+            home: const Root(),
+          );
+        },
+        error: (e, s) {
+          print(e.toString());
+          return Text(e.toString());
+        },
+        loading: () => const CircularProgressIndicator());
   }
 
   ThemeData getCurrentTheme() {

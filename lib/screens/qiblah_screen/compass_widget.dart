@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math' show pi;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class QiblahCompass extends StatefulWidget {
   const QiblahCompass({Key? key}) : super(key: key);
@@ -77,13 +80,14 @@ class _QiblahCompassState extends State<QiblahCompass> {
       await FlutterQiblah.requestPermissions();
       final s = await FlutterQiblah.checkLocationStatus();
       _locationStreamController.sink.add(s);
-    } else
+    } else {
       _locationStreamController.sink.add(locationStatus);
+    }
   }
-
 }
 
 class QiblahCompassWidget extends StatelessWidget {
+  QiblahCompassWidget({Key? key}) : super(key: key);
   final _compassSvg = SvgPicture.network(
       'https://raw.githubusercontent.com/medyas/flutter_qiblah/master/example/assets/compass.svg');
   final _needleSvg = SvgPicture.network(
@@ -98,8 +102,9 @@ class QiblahCompassWidget extends StatelessWidget {
     return StreamBuilder(
       stream: FlutterQiblah.qiblahStream,
       builder: (_, AsyncSnapshot<QiblahDirection> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
         final qiblahDirection = snapshot.data!;
 
@@ -135,33 +140,39 @@ class LocationErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = SizedBox(height: 32);
-    final errorColor = Color(0xffb00020);
+    const box = SizedBox(height: 32);
+    const errorColor = Color(0xffb00020);
 
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Icon(
-              Icons.location_off,
-              size: 150,
-              color: errorColor,
-            ),
-            box,
-            Text(
-              error!,
-              style: TextStyle(color: errorColor, fontWeight: FontWeight.bold),
-            ),
-            box,
-            ElevatedButton(
-              child: Text("Retry"),
-              onPressed: () {
-                if (callback != null) callback!();
-              },
-            )
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const Icon(
+            Icons.location_off,
+            size: 150,
+            color: errorColor,
+          ),
+          box,
+          Text(
+            error!,
+            style:
+                const TextStyle(color: errorColor, fontWeight: FontWeight.bold),
+          ),
+          box,
+          ElevatedButton(
+            child: const Text("Retry"),
+            onPressed: () async {
+              if (!kIsWeb && Platform.isAndroid) {
+                var locationAllowed = await Permission.location.status;
+                if (locationAllowed.isDenied) {
+                  print('req');
+                  await Permission.location.request();
+                }
+              }
+              if (callback != null) callback!();
+            },
+          )
+        ],
       ),
     );
   }

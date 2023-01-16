@@ -16,7 +16,7 @@ class StartPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pg = ref.watch(selectedPageProvider);
     return Scaffold(
-      appBar: pg > 1
+      appBar: pg > 0
           ? AppBar(
               backgroundColor: Theme.of(context).primaryColor,
               title: Text(AppLocalizations.of(context)!.jalgaonNamazTiming),

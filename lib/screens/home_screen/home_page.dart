@@ -7,8 +7,6 @@ import '../../repository/api/api_repo.dart';
 import 'day_night_banner.dart';
 import 'package:jalgaon_namaz_timing/extension/time_of_day_extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);

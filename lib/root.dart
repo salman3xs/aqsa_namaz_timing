@@ -4,6 +4,7 @@ import 'package:jalgaon_namaz_timing/common/select_city_dialog.dart';
 import 'package:jalgaon_namaz_timing/constants/constants.dart';
 import 'package:jalgaon_namaz_timing/screens/start_page.dart';
 
+import 'common/select_language_dailog.dart';
 import 'repository/local/shared_preference_repo.dart';
 
 class Root extends ConsumerWidget {
@@ -18,6 +19,13 @@ class Root extends ConsumerWidget {
             return const Scaffold(
               body: Center(
                 child: SelectCityDialog(),
+              ),
+            );
+          }
+          if (data.getString(PrefKeys.language) == null) {
+            return const Scaffold(
+              body: Center(
+                child: SelectLanguageDialog(),
               ),
             );
           }

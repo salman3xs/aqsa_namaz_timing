@@ -40,4 +40,22 @@ class SharedPreferenceRepo {
       return false;
     }
   }
+
+  Future<String?> getLanguage() async {
+    await checkData();
+    if (prefs != null) {
+      return prefs!.getString(PrefKeys.language);
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool> setLanguage(String language) async {
+    await checkData();
+    if (prefs != null) {
+      return await prefs!.setString(PrefKeys.language, language);
+    } else {
+      return false;
+    }
+  }
 }
