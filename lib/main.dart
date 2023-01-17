@@ -4,13 +4,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jalgaon_namaz_timing/constants/constants.dart';
 import 'package:jalgaon_namaz_timing/root.dart';
 import 'package:motion/motion.dart';
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'repository/local/shared_preference_repo.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Motion.instance.initialize();
   Motion.instance.setUpdateInterval(60.fps);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const ProviderScope(child: Home()));
 }
 
@@ -25,6 +26,7 @@ class Home extends ConsumerWidget {
     }
     return prefs.when(
         data: (data) {
+          FlutterNativeSplash.remove();
           return MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
