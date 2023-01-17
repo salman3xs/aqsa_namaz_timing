@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:jalgaon_namaz_timing/constants/constants.dart';
-import 'package:jalgaon_namaz_timing/root.dart';
+import 'constants/constants.dart';
+import 'root.dart';
 import 'package:motion/motion.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'repository/local/shared_preference_repo.dart';

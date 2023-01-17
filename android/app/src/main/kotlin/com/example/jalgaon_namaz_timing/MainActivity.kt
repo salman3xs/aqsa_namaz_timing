@@ -1,4 +1,4 @@
-package com.example.jalgaon_namaz_timing
+package com.dbt.jalgaon_namaz_timing
 
 import io.flutter.embedding.android.FlutterActivity
 

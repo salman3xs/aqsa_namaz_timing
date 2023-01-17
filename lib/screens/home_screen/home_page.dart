@@ -38,39 +38,65 @@ class HomePage extends HookConsumerWidget {
                           children: [
                             Expanded(
                               flex: 2,
-                              child: Column(children: [
-                                if (model.city != null)
-                                  Text(
-                                    model.city!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const SizedBox(
+                                        width: 3,
+                                      ),
+                                      if (model.city != null)
+                                        Text(
+                                          model.city!,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      Text(
+                                        data[index].hijriDate,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        data[index].hijriMonth,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.start,
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.start,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      AppLocalizations.of(context)!.namaz,
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      Text(
+                                        AppLocalizations.of(context)!.namaz,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      AppLocalizations.of(context)!.end,
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      Text(
+                                        AppLocalizations.of(context)!.end,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ]),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                             Expanded(
                                 flex: 15,

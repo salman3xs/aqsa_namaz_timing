@@ -18,6 +18,7 @@ class DailyTimeModel {
   final int day;
   final String weekday;
   final String hijriDate;
+  final String hijriMonth;
   DailyTimeModel({
     required this.fajr,
     required this.sunRise,
@@ -32,6 +33,7 @@ class DailyTimeModel {
     required this.day,
     required this.weekday,
     required this.hijriDate,
+    required this.hijriMonth
   });
 
   DailyTimeModel copyWith({
@@ -48,6 +50,7 @@ class DailyTimeModel {
     int? day,
     String? weekday,
     String? hijriDate,
+    String? hijriMonth,
   }) {
     return DailyTimeModel(
       fajr: fajr ?? this.fajr,
@@ -63,6 +66,7 @@ class DailyTimeModel {
       day: day ?? this.day,
       weekday: weekday ?? this.weekday,
       hijriDate: hijriDate ?? this.hijriDate,
+      hijriMonth: hijriMonth ?? this.hijriMonth,
     );
   }
 
@@ -81,6 +85,7 @@ class DailyTimeModel {
       'day': day,
       'weekday': weekday,
       'hijriDate': hijriDate,
+      'hijriMonth':hijriMonth
     };
   }
 
@@ -100,6 +105,7 @@ class DailyTimeModel {
       day: int.parse(map['date']['gregorian']['day']),
       weekday: map['date']['gregorian']['weekday']['en'] as String,
       hijriDate: map['date']['hijri']['date'] as String,
+      hijriMonth: map['date']['hijri']['month']['en'] as String,
     );
   }
 
