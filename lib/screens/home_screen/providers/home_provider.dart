@@ -6,7 +6,7 @@ import '../../../models/daily_time_model.dart';
 
 final homeNotifier = ChangeNotifierProvider((ref) {
   final model = HomeProvider(ref);
-  model.getCity();
+  model.init();
   return model;
 });
 
@@ -18,6 +18,13 @@ class HomeProvider extends ChangeNotifier {
   String? get city => _city;
   set city(String? city) {
     _city = city;
+    notifyListeners();
+  }
+
+  bool? _motion;
+  bool? get motion => _motion;
+  set motion(bool? motion) {
+    _motion = motion;
     notifyListeners();
   }
 
@@ -38,6 +45,7 @@ class HomeProvider extends ChangeNotifier {
     'Ishraq',
     'Chasht',
   ];
+
   final List<Color> clr = <Color>[
     Colors.greenAccent,
     Colors.greenAccent,
@@ -57,34 +65,35 @@ class HomeProvider extends ChangeNotifier {
 
   void addTimings(DailyTimeModel dailyTimeModel) {
     startTime.clear();
-    startTime.add(dailyTimeModel.fajr);//fajr
-    startTime.add(dailyTimeModel.dhuhr);//dhuhr
-    startTime.add(dailyTimeModel.asr);//asr
-    startTime.add(dailyTimeModel.magrib);//magrib
-    startTime.add(dailyTimeModel.isha);//isha
-    startTime.add(dailyTimeModel.fajr);//sahri
-    startTime.add(dailyTimeModel.magrib);//iftar
-    startTime.add(dailyTimeModel.sunRise);//tulu
-    startTime.add(dailyTimeModel.dhuhr.subTime(10));//zawal
-    startTime.add(dailyTimeModel.magrib.subTime(3));//gurub
-    startTime.add(dailyTimeModel.sunRise);//ishrq
-    startTime.add(dailyTimeModel.sunRise);//chast
+    startTime.add(dailyTimeModel.fajr); //fajr
+    startTime.add(dailyTimeModel.dhuhr); //dhuhr
+    startTime.add(dailyTimeModel.asr); //asr
+    startTime.add(dailyTimeModel.magrib); //magrib
+    startTime.add(dailyTimeModel.isha); //isha
+    startTime.add(dailyTimeModel.fajr); //sahri
+    startTime.add(dailyTimeModel.magrib); //iftar
+    startTime.add(dailyTimeModel.sunRise); //tulu
+    startTime.add(dailyTimeModel.dhuhr.subTime(10)); //zawal
+    startTime.add(dailyTimeModel.magrib.subTime(3)); //gurub
+    startTime.add(dailyTimeModel.sunRise); //ishrq
+    startTime.add(dailyTimeModel.sunRise); //chast
     endTime.clear();
-    endTime.add(dailyTimeModel.sunRise);//fajr
-    endTime.add(dailyTimeModel.asr);//dhuhr
-    endTime.add(dailyTimeModel.magrib.subTime(3));//asr
-    endTime.add(dailyTimeModel.isha);//magrib
-    endTime.add(dailyTimeModel.fajr);//isha
-    endTime.add(dailyTimeModel.fajr);//sahri
-    endTime.add(dailyTimeModel.magrib);//iftar
-    endTime.add(dailyTimeModel.sunRise.addTime(20));//tulu
-    endTime.add(dailyTimeModel.dhuhr);//zawal
-    endTime.add(dailyTimeModel.magrib);//gurub
-    endTime.add(dailyTimeModel.sunRise);//ishrq
-    endTime.add(dailyTimeModel.sunRise);//chast
+    endTime.add(dailyTimeModel.sunRise); //fajr
+    endTime.add(dailyTimeModel.asr); //dhuhr
+    endTime.add(dailyTimeModel.magrib.subTime(3)); //asr
+    endTime.add(dailyTimeModel.isha); //magrib
+    endTime.add(dailyTimeModel.fajr); //isha
+    endTime.add(dailyTimeModel.fajr); //sahri
+    endTime.add(dailyTimeModel.magrib); //iftar
+    endTime.add(dailyTimeModel.sunRise.addTime(20)); //tulu
+    endTime.add(dailyTimeModel.dhuhr); //zawal
+    endTime.add(dailyTimeModel.magrib); //gurub
+    endTime.add(dailyTimeModel.sunRise); //ishrq
+    endTime.add(dailyTimeModel.sunRise); //chast
   }
 
-  void getCity() async {
+  void init() async {
     city = await _sharedPreferenceRepo.getCity();
+    motion = await _sharedPreferenceRepo.getMotion();
   }
 }

@@ -58,4 +58,22 @@ class SharedPreferenceRepo {
       return false;
     }
   }
+
+  Future<bool?> getMotion() async {
+    await checkData();
+    if (prefs != null) {
+      return prefs!.getBool(PrefKeys.motion);
+    } else {
+      return true;
+    }
+  }
+
+  Future<bool> setMotion(bool motion) async {
+    await checkData();
+    if (prefs != null) {
+      return await prefs!.setBool(PrefKeys.motion, motion);
+    } else {
+      return true;
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-extension displayString on TimeOfDay {
+extension DisplayString on TimeOfDay {
   String asString() {
-    return this.hourOfPeriod.toString() + ":" + this.minute.toString()+" "+ this.period.name;
+    return "$hourOfPeriod:$minute ${period.name}";
   }
 
   int compareTo(TimeOfDay other) {
@@ -14,7 +14,7 @@ extension displayString on TimeOfDay {
   }
 
   TimeOfDay addTime(int min) {
-    int total = this.minute + min;
+    int total = minute + min;
 
     if (total > 60) {
       return TimeOfDay(hour: hour + 1, minute: total - 60);
@@ -24,7 +24,7 @@ extension displayString on TimeOfDay {
   }
 
   TimeOfDay subTime(int min) {
-    int total = this.minute - min;
+    int total = minute - min;
     if (total.isNegative) {
       return TimeOfDay(hour: hour - 1, minute: total + 60);
     } else {
@@ -33,9 +33,8 @@ extension displayString on TimeOfDay {
   }
 
   Duration difference(TimeOfDay other) {
-    int diffHour = this.hour - other.hour;
-    int diffMin = this.minute - other.minute;
-    print(Duration(hours: diffHour, minutes: diffMin + 60));
+    int diffHour = hour - other.hour;
+    int diffMin = minute - other.minute;
     if (diffMin.isNegative) {
       if (diffHour == 0) {
         return Duration(hours: diffHour, minutes: diffMin + 60);

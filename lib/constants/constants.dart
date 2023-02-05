@@ -8,5 +8,6 @@ class PrefKeys {
   PrefKeys._();
   static const city = 'city';
   static const language = 'language';
+  static const motion = 'motion';
 }
 

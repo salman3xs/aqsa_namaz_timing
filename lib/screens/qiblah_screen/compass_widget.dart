@@ -53,11 +53,6 @@ class _QiblahCompassState extends State<QiblahCompass> {
                   error: "Location service Denied Forever !",
                   callback: _checkLocationStatus,
                 );
-              // case GeolocationStatus.unknown:
-              //   return LocationErrorWidget(
-              //     error: "Unknown Location service error",
-              //     callback: _checkLocationStatus,
-              //   );
               default:
                 return const SizedBox();
             }
@@ -73,6 +68,16 @@ class _QiblahCompassState extends State<QiblahCompass> {
   }
 
   Future<void> _checkLocationStatus() async {
+    final GeolocatorPlatform geolocatorPlatform = GeolocatorPlatform.instance;
+    if (!kIsWeb && Platform.isAndroid) {
+      var locationAllowed = await Permission.location.status;
+      if (locationAllowed.isDenied) {
+        print('req');
+        await Permission.location.request();
+      }
+    }
+    await _handlePermission();
+    await geolocatorPlatform.getCurrentPosition();
     await Geolocator.requestPermission();
     final locationStatus = await FlutterQiblah.checkLocationStatus();
     if (locationStatus.enabled &&
@@ -83,6 +88,29 @@ class _QiblahCompassState extends State<QiblahCompass> {
     } else {
       _locationStreamController.sink.add(locationStatus);
     }
+  }
+
+  Future<bool> _handlePermission() async {
+    final GeolocatorPlatform geolocatorPlatform = GeolocatorPlatform.instance;
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return false;
+    }
+
+    permission = await geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+    return true;
   }
 }
 

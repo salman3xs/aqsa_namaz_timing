@@ -1,4 +1,4 @@
-import 'package:country_state_city_picker/country_state_city_picker.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jalgaon_namaz_timing/repository/api/api_repo.dart';
@@ -29,10 +29,25 @@ class SelectCityDialog extends ConsumerWidget {
             "Please Select Country",
             style: style.headline6,
           ),
-          SelectState(
-            onCountryChanged: model.onCountryChanged,
-            onStateChanged: model.onStateChanged,
-            onCityChanged: model.onCityChanged,
+          CSCPicker(
+            layout: Layout.vertical,
+            currentCountry:
+                model.countryValue != '' ? model.countryValue : null,
+            currentState: model.stateValue != '' ? model.stateValue : null,
+            currentCity: model.cityValue != '' ? model.cityValue : null,
+            onCountryChanged: (value) {
+              model.countryValue = value.split(' ').last;
+            },
+            onStateChanged: (value) {
+              if (value != null) {
+                model.stateValue = value;
+              }
+            },
+            onCityChanged: (value) {
+              if (value != null) {
+                model.cityValue = value;
+              }
+            },
           ),
           ElevatedButton(
               onPressed: () {

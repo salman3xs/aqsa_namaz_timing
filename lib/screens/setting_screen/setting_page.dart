@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jalgaon_namaz_timing/common/select_language_dailog.dart';
+import 'package:jalgaon_namaz_timing/screens/home_screen/providers/home_provider.dart';
+import 'package:jalgaon_namaz_timing/screens/setting_screen/providers/setting_provider.dart';
 import 'package:jalgaon_namaz_timing/screens/setting_screen/widgets/about_dialog.dart';
 import '../../common/select_city_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,6 +12,7 @@ class SettingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(settingNotifier);
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -49,6 +52,29 @@ class SettingPage extends ConsumerWidget {
                 AppLocalizations.of(context)!.changeLanguage,
                 style: const TextStyle(color: Colors.black),
               )),
+          const SizedBox(height: 15),
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              title: const Text(
+                'Motion Effect on Homepage',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
+              ),
+              trailing: Switch(
+                value: model.useMotion,
+                onChanged: (v) {
+                  model.changeMotion(v, () {
+                    ref.invalidate(homeNotifier);
+                  });
+                },
+              ),
+            ),
+          ),
           const SizedBox(height: 15),
           TextButton(
               onPressed: () {

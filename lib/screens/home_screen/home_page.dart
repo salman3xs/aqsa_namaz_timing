@@ -12,167 +12,172 @@ class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(homeNotifier);
+    return model.motion == null || model.motion!
+        ? const Motion(child: Home())
+        : const Home();
+  }
+}
+
+class Home extends ConsumerWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final api = ref.watch(apiRepoProvider);
     final model = ref.watch(homeNotifier);
-    return Motion(
-      child: Container(
-        color: Theme.of(context).primaryColor,
-        child: Column(
-          children: [
-            const Expanded(
-              flex: 1,
-              child: SizedBox(
-                width: double.infinity,
-                child: DayNightBanner(),
-              ),
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: Column(
+        children: [
+          const Expanded(
+            flex: 1,
+            child: SizedBox(
+              width: double.infinity,
+              child: DayNightBanner(),
             ),
-            Expanded(
-                flex: 3,
-                child: api.when(
-                    data: (data) {
-                      if (data != null) {
-                        final index = DateTime.now().day;
-                        final dailyTimeModel = data[index];
-                        model.addTimings(dailyTimeModel);
-                        return Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const SizedBox(
-                                        width: 3,
-                                      ),
-                                      if (model.city != null)
-                                        Text(
-                                          model.city!,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
+          ),
+          Expanded(
+              flex: 3,
+              child: api.when(
+                  data: (data) {
+                    if (data != null) {
+                      final index = DateTime.now().day;
+                      final dailyTimeModel = data[index];
+                      model.addTimings(dailyTimeModel);
+                      return Column(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    if (model.city != null)
                                       Text(
-                                        data[index].hijriDate,
+                                        model.city!,
                                         style: const TextStyle(
                                           color: Colors.white,
                                         ),
                                       ),
-                                      Text(
-                                        data[index].hijriMonth,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                    Text(
+                                      data[index].hijriDate,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!.start,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                    ),
+                                    Text(
+                                      data[index].hijriMonth,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                      Text(
-                                        AppLocalizations.of(context)!.namaz,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.start,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                      Text(
-                                        AppLocalizations.of(context)!.end,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.namaz,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.end,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            Expanded(
-                                flex: 15,
-                                child: ListView(
-                                  padding: const EdgeInsets.all(0),
-                                  children: List.generate(
-                                      model.clr.length,
-                                      ((entry) => ConstrainedBox(
-                                            constraints: const BoxConstraints(
-                                                minHeight: 60),
-                                            child: Card(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 18.0),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
+                          ),
+                          Expanded(
+                              flex: 15,
+                              child: ListView(
+                                padding: const EdgeInsets.all(0),
+                                children: List.generate(
+                                    model.clr.length,
+                                    ((entry) => ConstrainedBox(
+                                          constraints: const BoxConstraints(
+                                              minHeight: 60),
+                                          child: Card(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 18.0),
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      model.startTime[entry]
+                                                          .asString(),
+                                                    ),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Text(model
+                                                            .entries[entry]),
                                                         model.startTime[entry]
-                                                            .asString(),
-                                                      ),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        children: [
-                                                          Text(model
-                                                              .entries[entry]),
-                                                          model.startTime[entry]
-                                                                      .compareTo(
-                                                                          TimeOfDay
-                                                                              .now())
-                                                                      .isNegative &&
-                                                                  model.endTime[
-                                                                              entry]
-                                                                          .compareTo(
-                                                                              TimeOfDay.now()) >
-                                                                      0
-                                                              ? SlideCountdownSeparated(
-                                                                  duration: model
-                                                                      .endTime[
-                                                                          entry]
-                                                                      .difference(
-                                                                          TimeOfDay
-                                                                              .now()),
-                                                                )
-                                                              : const SizedBox(),
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        model.endTime[entry]
-                                                            .asString(),
-                                                      )
-                                                    ]),
-                                              ),
+                                                                    .compareTo(
+                                                                        TimeOfDay
+                                                                            .now())
+                                                                    .isNegative &&
+                                                                model.endTime[
+                                                                            entry]
+                                                                        .compareTo(
+                                                                            TimeOfDay.now()) >
+                                                                    0
+                                                            ? SlideCountdownSeparated(
+                                                                duration: model
+                                                                    .endTime[
+                                                                        entry]
+                                                                    .difference(
+                                                                        TimeOfDay
+                                                                            .now()),
+                                                              )
+                                                            : const SizedBox(),
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      model.endTime[entry]
+                                                          .asString(),
+                                                    )
+                                                  ]),
                                             ),
-                                          ))),
-                                ))
-                          ],
-                        );
-                      } else {
-                        return Text(
-                            AppLocalizations.of(context)!.noCitySelected);
-                      }
-                    },
-                    error: (e, s) => Center(child: Text(e.toString())),
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()))),
-          ],
-        ),
+                                          ),
+                                        ))),
+                              ))
+                        ],
+                      );
+                    } else {
+                      return Text(AppLocalizations.of(context)!.noCitySelected);
+                    }
+                  },
+                  error: (e, s) => Center(child: Text(e.toString())),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()))),
+        ],
       ),
     );
   }
