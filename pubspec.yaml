@@ -51,8 +51,6 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_native_splash: ^2.2.9
   csc_picker: ^0.2.7
-  workmanager: ^0.5.1
-  home_widget: ^0.2.0+1
 
 dev_dependencies:
   flutter_test:
