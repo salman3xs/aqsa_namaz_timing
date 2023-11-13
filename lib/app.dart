@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jalgaon_namaz_timing/root.dart';
 import 'package:motion/motion.dart';
+
 import 'constants/constants.dart';
 import 'repository/local/shared_preference_repo.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'utils/app_colors.dart';
 
 class Home extends ConsumerWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,19 +31,19 @@ class Home extends ConsumerWidget {
                 : data.getString(PrefKeys.language) ?? 'en'),
             title: "Jalgaon Namaz Timing",
             theme: ThemeData(
-              primaryColor: getColor(),
-              scaffoldBackgroundColor: getColor(),
+              primaryColor: AppColors.ans,
+              scaffoldBackgroundColor: AppColors.ans,
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(8),
-                  primary: getColor(),
+                  backgroundColor: AppColors.ans,
                   minimumSize: const Size.fromHeight(40),
                 ),
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.all(8),
-                  primary: Colors.white,
                   minimumSize: const Size.fromHeight(40),
                 ),
               ),
@@ -54,28 +56,6 @@ class Home extends ConsumerWidget {
           return Text(e.toString());
         },
         loading: () => const CircularProgressIndicator());
-  }
-
-  ThemeData getCurrentTheme() {
-    TimeOfDay timeOfDay = TimeOfDay.now();
-    if (timeOfDay.hour < 6 || timeOfDay.hour >= 18) {
-      return ThemeData.dark();
-    }
-    return ThemeData.light();
-  }
-
-  Color? getColor() {
-    final timeState = DateTime.now();
-    final hour = timeState.hour;
-    final isDay = hour >= 6 && hour <= 18;
-    final isDusk = hour >= 16 && hour <= 18;
-    if (!isDay) {
-      return Colors.blueGrey[900];
-    }
-    if (isDusk) {
-      return Colors.orange[400];
-    }
-    return Colors.blue[200];
   }
 
   Future<void> showPermissionRequestDialog(BuildContext context) async {

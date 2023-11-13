@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jalgaon_namaz_timing/constants/constants.dart';
+import 'package:jalgaon_namaz_timing/utils/app_colors.dart';
 
 double mapRange(
   double value,
@@ -14,31 +16,18 @@ double mapRange(
 
 const SUN_MOON_WIDTH = 100.0;
 
-class DayNightBanner extends StatelessWidget {
+class DayNightBanner extends ConsumerWidget {
   const DayNightBanner({Key? key}) : super(key: key);
 
-  Color? getColor(bool isDay, bool isDusk) {
-    if (!isDay) {
-      return Colors.blueGrey[900];
-    }
-    if (isDusk) {
-      return Colors.orange[400];
-    }
-    return Colors.blue[200];
-  }
 
   @override
-  Widget build(BuildContext context) {
-    final timeState = DateTime.now();
-    final hour = timeState.hour;
-    final isDay = hour >= 6 && hour <= 18;
-    final isDusk = hour >= 16 && hour <= 18;
-    final displace = mapRange(timeState.hour * 1.0, 0, 23);
+  Widget build(BuildContext context,WidgetRef ref) {
+    final displace = mapRange(AppColors.currentHour * 1.0, 0, 23);
     return AnimatedContainer(
       padding: const EdgeInsets.symmetric(horizontal: 32),
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
       height: 150,
-      color: getColor(isDay, isDusk),
+      color: AppColors.ans,
       child: LayoutBuilder(
         builder: (context, constraints) {
           final maxWidth = constraints.maxWidth.round() - SUN_MOON_WIDTH;
@@ -51,9 +40,9 @@ class DayNightBanner extends StatelessWidget {
                 curve: Curves.ease,
                 bottom: top * 20,
                 left: left,
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(seconds: 2),
                 child: SunMoon(
-                  isSun: isDay,
+                  isSun: AppColors.isDay,
                 ),
               ),
             ],
@@ -78,7 +67,7 @@ class SunMoon extends StatelessWidget {
       child: AnimatedSwitcher(
         switchInCurve: Curves.ease,
         switchOutCurve: Curves.ease,
-        duration: const Duration(milliseconds: 250),
+        duration: const Duration(seconds: 1),
         child: isSun!
             ? Container(
                 key: const ValueKey(1),

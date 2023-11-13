@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jalgaon_namaz_timing/extension/time_of_day_extensions.dart';
 import 'package:jalgaon_namaz_timing/screens/home_screen/providers/home_provider.dart';
 import 'package:motion/motion.dart';
 import 'package:slide_countdown/slide_countdown.dart';
+
 import '../../repository/api/api_repo.dart';
 import 'day_night_banner.dart';
-import 'package:jalgaon_namaz_timing/extension/time_of_day_extensions.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -174,7 +175,18 @@ class Home extends ConsumerWidget {
                       return Text(AppLocalizations.of(context)!.noCitySelected);
                     }
                   },
-                  error: (e, s) => Center(child: Text(e.toString())),
+                  error: (e, s) => Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                                onPressed: () =>
+                                    ref.invalidate(apiRepoProvider),
+                                child: const Text('Retry')),
+                            Text(e.toString()),
+                          ],
+                        ),
+                      ),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()))),
         ],
