@@ -1,0 +1,18 @@
+{
+  "permissionRequired":"अनुमति आवश्यक है",
+  "onIOS13":"iOS 13+ पर, आपको जायरोस्कोप का एक्सेस देना होगा। आगे बढ़ने की अनुमति मांगी जाएगी।",
+  "cancel":"रद्द करना",
+  "ok":"ठीक है",
+  "pleaseSelectCountry":"कृपया देश चुनें",
+  "select":"चुनें",
+  "jalgaonNamazTiming":"जलगाँव नमाज़ का समय",
+  "start":"शुरु",
+  "namaz":"नमाज",
+  "end":"अंत",
+  "noCitySelected":"कोई शहर नहीं चुना गया",
+  "retry":"पुन: प्रयास करें",
+  "setting":"सेटिंग",
+  "changeCity":"शहर बदलें",
+  "changeLanguage":"भाषा बदलें",
+  "about":"बारे में"
+}
